@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cat $1 | cut -d ' ' -f1 | sort > one
+cat $1 | cut -d ' ' -f4 | sort > two
+
+paste one two > third
+rm two one
+awk '{print($2 - $1 < 0 ? $1 - $2 : $2 - $1)}' third > four
+rm third
+awk '{sum += $1} END {print sum}' four
+
