@@ -1,0 +1,10 @@
+awk '{
+    for (i = 1; i <= NF; i++) {
+        a[i] = (a[i] ? a[i] FS : "") $i
+    }
+} END {
+    for (i = 1; i in a; i++) {
+        print a[i]
+    }
+}' FS="" $1
+

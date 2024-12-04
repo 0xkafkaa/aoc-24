@@ -1,0 +1,11 @@
+awk '{
+    for (i = 1; i <= NF; i++) {
+        reverse_diagonal[NR + (NF - i)] = (reverse_diagonal[NR + (NF - i)] ? reverse_diagonal[NR + (NF - i)] : "") $i
+    }
+} END {
+    # Print reverse diagonal
+    for (i = 1; i in reverse_diagonal; i++) {
+        print reverse_diagonal[i]
+    }
+}' FS="" $1 
+

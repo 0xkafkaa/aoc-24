@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ans=0
+
+hWrds=$(cat $1 | grep -o XMAS | wc -l)
+hWrdsB=$(cat $1 | grep -o SAMX | wc -l)
+
+./transpose $1 > reversed
+vWrds=$(cat reversed | grep -o XMAS | wc -l)
+vWrdsB=$(cat reversed | grep -o SAMX | wc -l)
+
+./diagonal $1 > diagonalFile
+dWrds=$(cat diagonalFile | grep -o XMAS | wc -l)
+dWrdsB=$(cat diagonalFile | grep -o SAMX | wc -l)
+
+./diagonalR $1 > diagonalReversed
+
+dRWrds=$(cat diagonalReversed | grep -o XMAS | wc -l)
+dRWrdsB=$(cat diagonalReversed | grep -o SAMX | wc -l)
+
+rm reversed diagonalFile diagonalReversed
+
+ans=$((ans+hWrds+hWrdsB+vWrds+vWrdsB+dWrds+dWrdsB+dRWrds+dRWrdsB))
+echo $ans

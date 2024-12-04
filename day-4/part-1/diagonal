@@ -1,0 +1,10 @@
+awk '{
+    for (i = 1; i <= NF; i++) {
+        diagonal[NR + i - 1] = (diagonal[NR + i - 1] ? diagonal[NR + i - 1] : "") $i
+    }
+} END {
+    for (i = 1; i in diagonal; i++) {
+        print diagonal[i]
+    }
+}' FS="" $1 
+
