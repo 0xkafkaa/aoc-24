@@ -1,0 +1,60 @@
+#!/bin/bash
+
+transpose() {
+    awk '{
+        for (i = 1; i <= NF; i++) {
+            a[i] = (a[i] ? a[i] FS : "") $i
+        }
+    } END {
+        for (i = 1; i in a; i++) {
+            print a[i]
+        }
+    }' FS="" "$1"
+}
+
+diagonal() {
+    awk '{
+        for (i = 1; i <= NF; i++) {
+            diagonal[NR + i - 1] = (diagonal[NR + i - 1] ? diagonal[NR + i - 1] : "") $i
+        }
+    } END {
+        for (i = 1; i in diagonal; i++) {
+            print diagonal[i]
+        }
+    }' FS="" "$1"
+}
+
+diagonalR() {
+    awk '{
+        for (i = 1; i <= NF; i++) {
+            reverse_diagonal[NR + (NF - i)] = (reverse_diagonal[NR + (NF - i)] ? reverse_diagonal[NR + (NF - i)] : "") $i
+        }
+    } END {
+        for (i = 1; i in reverse_diagonal; i++) {
+            print reverse_diagonal[i]
+        }
+    }' FS="" "$1"
+}
+
+ans=0
+
+hWrds=$(grep -o "XMAS" "$1" | wc -l)
+hWrdsB=$(grep -o "SAMX" "$1" | wc -l)
+
+transpose "$1" > reversed
+vWrds=$(grep -o "XMAS" reversed | wc -l)
+vWrdsB=$(grep -o "SAMX" reversed | wc -l)
+
+diagonal "$1" > diagonalFile
+dWrds=$(grep -o "XMAS" diagonalFile | wc -l)
+dWrdsB=$(grep -o "SAMX" diagonalFile | wc -l)
+
+diagonalR "$1" > diagonalReversed
+dRWrds=$(grep -o "XMAS" diagonalReversed | wc -l)
+dRWrdsB=$(grep -o "SAMX" diagonalReversed | wc -l)
+
+rm reversed diagonalFile diagonalReversed
+
+ans=$((ans + hWrds + hWrdsB + vWrds + vWrdsB + dWrds + dWrdsB + dRWrds + dRWrdsB))
+echo "$ans"
+
